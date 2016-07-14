@@ -1,10 +1,13 @@
 // simple server
 var express = require('express'),
     bodyParser = require('body-parser'),
-    path = require('path');
-    fs = require('fs');
+    path = require('path'),
+    fs = require('fs'),
     readFile = require('fs-readfile-promise');
-
+    
+var request = require("request");
+var creds = require("./.config");
+console.log(creds)
 // server config
 var port = 3000;
 var app = express();
@@ -24,11 +27,35 @@ app.use(webpackDevMiddleware(compiler, {
 
 // serve static files
 app.use(express.static(path.join(__dirname)));
+app.use(bodyParser.json());
 
 // serve data
 app.get('/data', function (req,res){
   var payload;
+  var options = {
+    url: 'https://api.github.com/repos/unicode-cldr/cldr-misc-full/contents/main',
+    host: 'api.github.com',
+    method: 'GET',
+    headers: {'user-agent': 'node.js'}
+};
   //read out the main dir to get the list of countries
+  request(options, function (err, res) {
+    var countries = JSON.parse(res.body);
+    var countryDataPromises = countries.map(function(country){
+      var options = {
+        url: 'https://api.github.com/repos/unicode-cldr/cldr-misc-full/contents/main/' + country.name + '/delimiters.json?client_id=' + creds.id + '&client_secret=' + creds.secret,
+        host: 'api.github.com',
+        method: 'GET',
+        headers: {'user-agent': 'node.js'}
+      };
+      console.log(options)
+      return request(options, function (err, res){
+        var countryData = JSON.parse(res.body);
+        console.log(countryData);
+      })
+
+    });
+  });
   fs.readdir(__dirname + '/assets/cldr-misc-full-master/main/', function (err, files){
     // map over the list reading the contents of each country's data and returning an array of promises
     var tuples = files.map(function(country){

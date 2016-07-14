@@ -27,11 +27,21 @@ class App extends Component {
   renderList(property){
     let list;
     this.props.models ? list = this.props.models : list = null;
+    // console.log(list)
        return list ?
-              _.map(list,function(country){
-              return <div  key={country[0]}className='results'>{country[0]}:{country[1][property]}</div>
-            })    :
-              ""
+        _.map(list,function(country, key){
+          return (
+            <tr key={key}>
+              <td>{key}</td>
+              <td>{country[0]}</td>
+              <td>{country[1].quotationStart}</td>
+              <td>{country[1].quotationEnd}</td>
+              <td>{country[1].alternateQuotationStart}</td>
+              <td>{country[1].alternateQuotationEnd}</td>
+            </tr>)
+            })
+                :
+            ""
     }
 
   render () {
@@ -42,6 +52,7 @@ class App extends Component {
       { value: 'alternateQuotationStart', label: 'alternateQuotationStart' },
       { value: 'alternateQuotationEnd', label: 'alternateQuotationEnd' }
   ];
+    console.log(this.renderList());
     return (
       <div>
         <Select
@@ -51,9 +62,19 @@ class App extends Component {
             onChange={this.selectChange.bind(this)}
         />
         
-        <ul>
-            {this.renderList(this.props.activeProp)}
-        </ul>
+        <table className="table">
+        <thead>
+          <th>Number</th>
+          <th>Country</th>
+          <th>Open</th>
+          <th>Close</th>
+          <th>Alt Open</th>
+          <th>Alt Close</th>
+        </thead>
+        <tbody>
+          {this.renderList()}
+        </tbody>
+        </table>
       </div>
     );
   }
