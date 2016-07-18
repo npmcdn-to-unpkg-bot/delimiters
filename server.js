@@ -6,6 +6,7 @@ var express = require('express'),
     readFile = require('fs-readfile-promise'),
     request = Promise.promisify(require("request")),
     creds = require("./.config");
+
 // server config
 var port = 3000;
 var app = express();
@@ -16,7 +17,6 @@ var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
 var config = require('./webpack.dev.config.js');
 var compiler = webpack(config);
-
 app.use(webpackHotMiddleware(compiler));
 app.use(webpackDevMiddleware(compiler, {
   noInfo: true,
@@ -25,7 +25,7 @@ app.use(webpackDevMiddleware(compiler, {
 
 // serve static files
 app.use(express.static(path.join(__dirname)));
-//bodyparser
+// bodyparser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -51,7 +51,7 @@ app.get('/data', function (req,res){
         method: 'GET',
         headers: {'user-agent': 'node.js'}
       };
-        return request(options)
+        return request(options);
     });
     countryDataPromises = countryDataPromises.filter(function (data){
       return data !== null;
@@ -76,7 +76,8 @@ app.get('/data', function (req,res){
       }
       });
       res.send(payload);
-    });
+    })
   });
+});
 console.log('app listening on ', port)
 app.listen(port);

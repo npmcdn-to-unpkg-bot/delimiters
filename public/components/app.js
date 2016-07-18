@@ -4,12 +4,11 @@ import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import _ from 'lodash';
 
-import {getData} from '../actions/modelActions';
+import { getData } from '../actions/modelActions';
 
 class App extends Component {
   componentDidMount() {
-    this.props.getData().then(function(data){
-    });
+    this.props.getData()
   }
 
   onPropClick(){
@@ -37,28 +36,20 @@ class App extends Component {
     }
 
   render () {
-
-    let options = [
-      { value: 'quotationStart', label: 'quotationStart' },
-      { value: 'quotationEnd', label: 'quotationEnd' },
-      { value: 'alternateQuotationStart', label: 'alternateQuotationStart' },
-      { value: 'alternateQuotationEnd', label: 'alternateQuotationEnd' }
-  ];
     return (
       <div>
-        
         <table className="table">
-        <thead>
-          <th>Number</th>
-          <th>Country</th>
-          <th>Open</th>
-          <th>Close</th>
-          <th>Alt Open</th>
-          <th>Alt Close</th>
-        </thead>
-        <tbody>
-          {this.renderList()}
-        </tbody>
+          <thead>
+            <th>Number</th>
+            <th>Country</th>
+            <th>Open</th>
+            <th>Close</th>
+            <th>Alt Open</th>
+            <th>Alt Close</th>
+          </thead>
+          <tbody>
+            {this.renderList()}
+          </tbody>
         </table>
       </div>
     );
@@ -68,12 +59,11 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     models:state.Models,
-    activeProp:state.ActiveProp
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({getData, changeProperty}, dispatch)
+  return bindActionCreators({ getData }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reduxPromise from 'redux-promise';
 import reducers from './reducers';
-import _ from 'lodash';
 import axios from 'axios';
 import App from './components/app.js';
 
