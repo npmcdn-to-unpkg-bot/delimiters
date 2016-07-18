@@ -52,15 +52,8 @@ class App extends Component {
       { value: 'alternateQuotationStart', label: 'alternateQuotationStart' },
       { value: 'alternateQuotationEnd', label: 'alternateQuotationEnd' }
   ];
-    console.log(this.renderList());
     return (
       <div>
-        <Select
-            name="Properties"
-            value="quotationStart"
-            options={options}
-            onChange={this.selectChange.bind(this)}
-        />
         
         <table className="table">
         <thead>
