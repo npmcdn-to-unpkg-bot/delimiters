@@ -3,12 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import _ from 'lodash';
-import Select from 'react-select';
 
 import {getData} from '../actions/modelActions';
-import {changeProperty} from '../actions/activeProp';
-
-
 
 class App extends Component {
   componentDidMount() {
@@ -18,10 +14,6 @@ class App extends Component {
 
   onPropClick(){
 
-  }
-
-  selectChange(val) {
-      this.props.changeProperty(val);
   }
 
   renderList(property){
